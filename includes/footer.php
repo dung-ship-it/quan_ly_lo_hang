@@ -5,6 +5,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="<?= BASE_URL ?>assets/js/main.js"></script>
+<script src="<?= BASE_URL ?>assets/js/app.js"></script>
 <?php if (isset($extraJS)) echo $extraJS; ?>
 </body>
 </html>
