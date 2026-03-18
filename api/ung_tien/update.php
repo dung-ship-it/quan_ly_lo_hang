@@ -1,0 +1,23 @@
+<?php
+require_once '../../config/database.php';
+requireLogin();
+$conn = getDB();
+$id = intval($_POST['id'] ?? 0);
+if (!$id) jsonResponse(false, 'ID không hợp lệ!');
+$r = $conn->prepare("SELECT * FROM ung_tien WHERE id=?");
+$r->bind_param('i', $id); $r->execute();
+$ut = $r->get_result()->fetch_assoc();
+if (!$ut) jsonResponse(false, 'Không tìm thấy phiếu!');
+if (!isAdmin() && $ut['trang_thai'] === 'da_duyet') jsonResponse(false, 'Phiếu đã duyệt, không thể sửa!');
+if (!isAdmin() && $ut['user_id'] != $_SESSION['user_id']) jsonResponse(false, 'Không có quyền!');
+$ngay = $_POST['ngay'] ?? $ut['ngay'];
+$soTien = floatval($_POST['so_tien'] ?? 0);
+$lyDo = trim($_POST['ly_do'] ?? '');
+$ghiChu = trim($_POST['ghi_chu'] ?? '');
+if (!$soTien || !$lyDo) jsonResponse(false, 'Vui lòng nhập đủ thông tin!');
+$thang = intval(date('m', strtotime($ngay)));
+$nam = intval(date('Y', strtotime($ngay)));
+$stmt = $conn->prepare("UPDATE ung_tien SET ngay=?,so_tien=?,ly_do=?,ghi_chu=?,thang=?,nam=? WHERE id=?");
+$stmt->bind_param('sdssiid', $ngay,$soTien,$lyDo,$ghiChu,$thang,$nam,$id);
+if ($stmt->execute()) jsonResponse(true, 'Cập nhật phiếu thành công!');
+else jsonResponse(false, 'Lỗi khi cập nhật!');
