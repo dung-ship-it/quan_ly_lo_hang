@@ -126,8 +126,12 @@ function getParams() {
 }
 
 function loadBaoCaoThang() {
+    $('#tbodyBCThang').html('<tr><td colspan="23" class="text-center py-4"><i class="fas fa-spinner fa-spin me-2"></i>Đang tải...</td></tr>');
     $.get(BASE_URL + 'api/bao_cao_thang/list.php', getParams(), function(res) {
-        if (!res.success) return;
+        if (!res.success) {
+            $('#tbodyBCThang').html('<tr><td colspan="23" class="text-center py-4 text-danger">Lỗi tải dữ liệu!</td></tr>');
+            return;
+        }
         let html = '', tongRow = {};
         const moneyFields = ['thue','phi_thc','phi_lenh','mo_tk','kiem','boc_xep_xe_nang','handling','xe_om','xe_bus','chi_ngoai','van_chuyen'];
         moneyFields.forEach(f => tongRow[f] = 0);
@@ -186,7 +190,9 @@ function loadBaoCaoThang() {
         </tr>`;
         $('#tfootBCThang').html(footHtml);
         loadSummaryCards();
-    }, 'json');
+    }, 'json').fail(function() {
+        $('#tbodyBCThang').html('<tr><td colspan="23" class="text-center py-4 text-danger">Không thể kết nối API!</td></tr>');
+    });
 }
 
 function loadSummaryCards() {
