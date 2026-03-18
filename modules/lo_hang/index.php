@@ -139,7 +139,7 @@ function renderTable() {
             const isEditable = lh.trang_thai === 'chua_luu' || lh.trang_thai === 'dang_sua';
             if (lh.trang_thai === 'chua_luu') coTrang = true;
             const rowClass = getTrangThaiClass(lh.trang_thai);
-            const canEdit = isAdmin() || lh.trang_thai !== 'hoan_thanh';
+            const canEdit = IS_ADMIN || lh.trang_thai !== 'hoan_thanh';
             html += renderRow(lh, idx, isEditable, rowClass, canEdit);
         });
     }
@@ -172,7 +172,7 @@ function renderRow(lh, idx, isEditable, rowClass, canEdit) {
         `<div class="ly-do-tu-choi-badge mt-1"><i class="fas fa-exclamation-circle me-1"></i>${lh.ly_do_tu_choi}</div>` : '';
 
     return `<tr class="lo-hang-row ${rowClass}" data-id="${lh.id || ''}" data-idx="${idx}">
-        <td class="col-nv"><span class="badge bg-secondary">${lh.ho_ten || $_SESSION['ho_ten']}</span></td>
+        <td class="col-nv"><span class="badge bg-secondary">${lh.ho_ten || '<?= htmlspecialchars($_SESSION['ho_ten']) ?>'}</span></td>
         <td style="text-align:center; font-weight:bold">${idx+1}</td>
         <td class="col-kh">
             <select class="form-select form-select-sm" name="khach_hang_id" ${disSelect} onchange="onFieldChange(${idx})">
