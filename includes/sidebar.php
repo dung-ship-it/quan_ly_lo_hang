@@ -36,7 +36,12 @@ $currentDir  = basename(dirname($_SERVER['PHP_SELF']));
                 <i class="fas fa-money-bill-wave"></i><span>Ứng Tiền</span>
             </a>
         </li>
-
+<!-- Báo Cáo Tuần -->
+        <li class="<?= $currentDir === 'bao_cao_tuan' ? 'active' : '' ?>">
+            <a href="<?= BASE_URL ?>modules/bao_cao_tuan/index.php">
+                <i class="fas fa-chart-line"></i><span>Báo Cáo Tuần</span>
+            </a>
+        </li>
         <!-- Báo Cáo Tháng -->
         <li class="<?= $currentDir === 'bao_cao_thang' ? 'active' : '' ?>">
             <a href="<?= BASE_URL ?>modules/bao_cao_thang/index.php">
@@ -44,13 +49,7 @@ $currentDir  = basename(dirname($_SERVER['PHP_SELF']));
             </a>
         </li>
 
-        <!-- Báo Cáo Tuần -->
-        <li class="<?= $currentDir === 'bao_cao_tuan' ? 'active' : '' ?>">
-            <a href="<?= BASE_URL ?>modules/bao_cao_tuan/index.php">
-                <i class="fas fa-chart-line"></i><span>Báo Cáo Tuần</span>
-            </a>
-        </li>
-
+       
         <?php if (isAdmin()): ?>
         <!-- Quản Trị (chỉ admin) -->
         <li class="<?= $currentDir === 'quan_tri' && $currentPage !== 'doi_mat_khau.php' ? 'active' : '' ?>">

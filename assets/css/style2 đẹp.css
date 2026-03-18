@@ -2,6 +2,10 @@
    GLOBAL STYLES
    ============================================= */
 :root {
+html, body {
+    height: 100%;
+    overflow: hidden; /* ngăn trang scroll */
+}
     --sidebar-width: 250px;
     --sidebar-collapsed: 60px;
     --primary: #667eea;
@@ -12,26 +16,12 @@
     --info: #17a2b8;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f0f2f5;
-}
+body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
 
 /* =============================================
    WRAPPER & LAYOUT
    ============================================= */
-.wrapper {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
+.wrapper { display: flex; min-height: 100vh; overflow: hidden; }
 
 .main-content {
     flex: 1;
@@ -39,15 +29,12 @@ body {
     transition: margin-left 0.3s;
     padding: 20px;
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: auto;   /* ← scroll dọc chỉ trong main-content */
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
 }
 
-.wrapper.collapsed .main-content {
-    margin-left: var(--sidebar-collapsed);
-}
+.wrapper.collapsed .main-content { margin-left: var(--sidebar-collapsed); }
 
 /* =============================================
    SIDEBAR
@@ -56,8 +43,7 @@ body {
     width: var(--sidebar-width);
     background: linear-gradient(180deg, #2c3e50 0%, #3d5a80 100%);
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     height: 100vh;
     overflow-y: auto;
     transition: width 0.3s;
@@ -67,7 +53,6 @@ body {
 }
 
 .sidebar.collapsed { width: var(--sidebar-collapsed); }
-
 .sidebar.collapsed .sidebar-header span,
 .sidebar.collapsed .user-info,
 .sidebar.collapsed .sidebar-menu span,
@@ -81,7 +66,6 @@ body {
     font-weight: bold;
     display: flex;
     align-items: center;
-    flex-shrink: 0;
 }
 
 .sidebar-user {
@@ -91,7 +75,6 @@ body {
     align-items: center;
     gap: 10px;
     color: white;
-    flex-shrink: 0;
 }
 
 .user-name { font-size: 13px; font-weight: 600; }
@@ -115,55 +98,17 @@ body {
 }
 .sidebar-menu li a i { width: 20px; text-align: center; font-size: 15px; }
 
-.sidebar-footer {
-    padding: 15px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    flex-shrink: 0;
-}
+.sidebar-footer { padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
 
 /* =============================================
    TOP NAVBAR
    ============================================= */
-.top-navbar {
-    background: white;
-    padding: 12px 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-}
-
-.page-title { font-size: 20px; font-weight: 700; color: #2c3e50; margin: 0; }
-
-/* =============================================
-   CARD & TABLE WRAPPER
-   ============================================= */
-.card {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-}
-
-.card-body {
-    flex: 1;
-    min-height: 0;
-    padding: 0 !important;
-    display: flex;
-    flex-direction: column;
-}
-
 .table-wrapper {
-    flex: 1;
-    overflow-x: auto;
-    overflow-y: auto;
+    overflow-x: auto;   /* ← chỉ scroll ngang */
+    overflow-y: visible;
     border-radius: 10px 10px 0 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    /* KHÔNG dùng max-height ở đây */
 }
-
 /* =============================================
    DASHBOARD CARDS
    ============================================= */
@@ -175,7 +120,7 @@ body {
     overflow: hidden;
 }
 .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
-.stat-card .card-body { padding: 20px !important; }
+.stat-card .card-body { padding: 20px; }
 .stat-card .stat-icon {
     width: 50px; height: 50px;
     border-radius: 12px;
@@ -189,10 +134,10 @@ body {
    LÔ HÀNG - TRẠNG THÁI MÀU (hàng)
    ============================================= */
 .lo-hang-row { transition: background-color 0.3s; }
-.lo-hang-row.trang_thai_chua_luu   { background-color: #ffffff !important; }
-.lo-hang-row.trang_thai_da_luu     { background-color: #ffe4e8 !important; }
+.lo-hang-row.trang_thai_chua_luu  { background-color: #ffffff !important; }
+.lo-hang-row.trang_thai_da_luu    { background-color: #ffe4e8 !important; }
 .lo-hang-row.trang_thai_hoan_thanh { background-color: #d4edda !important; }
-.lo-hang-row.trang_thai_tu_choi    { background-color: #fff3cd !important; }
+.lo-hang-row.trang_thai_tu_choi   { background-color: #fff3cd !important; }
 
 /* =============================================
    BẢNG DỮ LIỆU NGANG (LÔ HÀNG)
@@ -234,13 +179,19 @@ body {
 .table-lo-hang .col-trang-thai { min-width: 120px; }
 .table-lo-hang .col-action     { min-width: 120px; }
 
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
 /* =============================================
    STATUS BADGES
    ============================================= */
-.badge-cho-duyet       { background: #ffc107; color: #000; }
-.badge-da-duyet        { background: #28a745; color: #fff; }
-.badge-tu-choi         { background: #dc3545; color: #fff; }
-.badge-hoan-thanh      { background: #28a745; color: #fff; }
+.badge-cho-duyet      { background: #ffc107; color: #000; }
+.badge-da-duyet       { background: #28a745; color: #fff; }
+.badge-tu-choi        { background: #dc3545; color: #fff; }
+.badge-hoan-thanh     { background: #28a745; color: #fff; }
 .badge-chua-hoan-thanh { background: #ff6b9d; color: #fff; }
 
 /* =============================================
@@ -255,9 +206,9 @@ body {
     box-shadow: 0 3px 12px rgba(0,0,0,0.07);
     border-left: 4px solid;
 }
-.summary-card.ung     { border-color: #667eea; }
-.summary-card.lam     { border-color: #28a745; }
-.summary-card.con-lai { border-color: #ff6b9d; }
+.summary-card.ung      { border-color: #667eea; }
+.summary-card.lam      { border-color: #28a745; }
+.summary-card.con-lai  { border-color: #ff6b9d; }
 .summary-card .sc-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
 .summary-card .sc-value { font-size: 20px; font-weight: 700; color: #2c3e50; margin-top: 5px; }
 .summary-card .sc-name  { font-size: 12px; color: #495057; margin-bottom: 3px; font-weight: 600; }
@@ -298,7 +249,7 @@ body {
     border-spacing: 0 !important;
 }
 
-/* --- Sticky thead --- */
+/* --- Sticky thead (z-index cao hơn tbody) --- */
 #tableLoHang thead th:nth-child(1) { position: sticky; left: 0;     z-index: 11; background: #2c3e50; }
 #tableLoHang thead th:nth-child(2) { position: sticky; left: 100px; z-index: 11; background: #2c3e50; }
 #tableLoHang thead th:nth-child(3) { position: sticky; left: 140px; z-index: 11; background: #2c3e50; }
@@ -310,30 +261,30 @@ body {
 }
 
 /* --- Sticky tbody --- */
-#tableLoHang tbody td:nth-child(1) { position: sticky; left: 0;     z-index: 2; background: #fff; }
-#tableLoHang tbody td:nth-child(2) { position: sticky; left: 100px; z-index: 2; background: #fff; }
-#tableLoHang tbody td:nth-child(3) { position: sticky; left: 140px; z-index: 2; background: #fff; }
-#tableLoHang tbody td:nth-child(4) { position: sticky; left: 270px; z-index: 2; background: #fff; }
-#tableLoHang tbody td:nth-child(5) { position: sticky; left: 430px; z-index: 2; background: #fff; }
+#tableLoHang tbody td:nth-child(1) { position: sticky; left: 0;     z-index: 2; }
+#tableLoHang tbody td:nth-child(2) { position: sticky; left: 100px; z-index: 2; }
+#tableLoHang tbody td:nth-child(3) { position: sticky; left: 140px; z-index: 2; }
+#tableLoHang tbody td:nth-child(4) { position: sticky; left: 270px; z-index: 2; }
+#tableLoHang tbody td:nth-child(5) { position: sticky; left: 430px; z-index: 2; }
 #tableLoHang tbody td:nth-child(6) {
-    position: sticky; left: 590px; z-index: 2; background: #fff;
+    position: sticky; left: 590px; z-index: 2;
     border-right: 2px solid #4a90d9 !important;
 }
 
 /* --- Màu nền sticky cells theo trạng thái hàng --- */
-#tableLoHang tbody tr.trang_thai_chua_luu td:nth-child(1),
-#tableLoHang tbody tr.trang_thai_chua_luu td:nth-child(2),
-#tableLoHang tbody tr.trang_thai_chua_luu td:nth-child(3),
-#tableLoHang tbody tr.trang_thai_chua_luu td:nth-child(4),
-#tableLoHang tbody tr.trang_thai_chua_luu td:nth-child(5),
-#tableLoHang tbody tr.trang_thai_chua_luu td:nth-child(6) { background: #ffffff !important; }
+#tableLoHang tbody tr.trang_thai_chua_luu   td:nth-child(1),
+#tableLoHang tbody tr.trang_thai_chua_luu   td:nth-child(2),
+#tableLoHang tbody tr.trang_thai_chua_luu   td:nth-child(3),
+#tableLoHang tbody tr.trang_thai_chua_luu   td:nth-child(4),
+#tableLoHang tbody tr.trang_thai_chua_luu   td:nth-child(5),
+#tableLoHang tbody tr.trang_thai_chua_luu   td:nth-child(6) { background: #ffffff !important; }
 
-#tableLoHang tbody tr.trang_thai_da_luu td:nth-child(1),
-#tableLoHang tbody tr.trang_thai_da_luu td:nth-child(2),
-#tableLoHang tbody tr.trang_thai_da_luu td:nth-child(3),
-#tableLoHang tbody tr.trang_thai_da_luu td:nth-child(4),
-#tableLoHang tbody tr.trang_thai_da_luu td:nth-child(5),
-#tableLoHang tbody tr.trang_thai_da_luu td:nth-child(6) { background: #ffe4e8 !important; }
+#tableLoHang tbody tr.trang_thai_da_luu     td:nth-child(1),
+#tableLoHang tbody tr.trang_thai_da_luu     td:nth-child(2),
+#tableLoHang tbody tr.trang_thai_da_luu     td:nth-child(3),
+#tableLoHang tbody tr.trang_thai_da_luu     td:nth-child(4),
+#tableLoHang tbody tr.trang_thai_da_luu     td:nth-child(5),
+#tableLoHang tbody tr.trang_thai_da_luu     td:nth-child(6) { background: #ffe4e8 !important; }
 
 #tableLoHang tbody tr.trang_thai_hoan_thanh td:nth-child(1),
 #tableLoHang tbody tr.trang_thai_hoan_thanh td:nth-child(2),
@@ -342,9 +293,9 @@ body {
 #tableLoHang tbody tr.trang_thai_hoan_thanh td:nth-child(5),
 #tableLoHang tbody tr.trang_thai_hoan_thanh td:nth-child(6) { background: #d4edda !important; }
 
-#tableLoHang tbody tr.trang_thai_tu_choi td:nth-child(1),
-#tableLoHang tbody tr.trang_thai_tu_choi td:nth-child(2),
-#tableLoHang tbody tr.trang_thai_tu_choi td:nth-child(3),
-#tableLoHang tbody tr.trang_thai_tu_choi td:nth-child(4),
-#tableLoHang tbody tr.trang_thai_tu_choi td:nth-child(5),
-#tableLoHang tbody tr.trang_thai_tu_choi td:nth-child(6) { background: #fff3cd !important; }
+#tableLoHang tbody tr.trang_thai_tu_choi    td:nth-child(1),
+#tableLoHang tbody tr.trang_thai_tu_choi    td:nth-child(2),
+#tableLoHang tbody tr.trang_thai_tu_choi    td:nth-child(3),
+#tableLoHang tbody tr.trang_thai_tu_choi    td:nth-child(4),
+#tableLoHang tbody tr.trang_thai_tu_choi    td:nth-child(5),
+#tableLoHang tbody tr.trang_thai_tu_choi    td:nth-child(6) { background: #fff3cd !important; }
