@@ -148,7 +148,10 @@ function loadBaoCaoTuan() {
     const tuan = $('#tuanChon').val();
     const nam = $('#namChon').val();
     $.get(BASE_URL + 'api/bao_cao_tuan/list.php', { tuan, nam }, function(res) {
-        if (!res.success) return;
+        if (!res.success) {
+            $('#tbodyBCTuan').html('<tr><td colspan="24" class="text-center py-4 text-danger">Lỗi tải dữ liệu!</td></tr>');
+            return;
+        }
         let html = '';
         if (res.data.length === 0) {
             html = '<tr><td colspan="24" class="text-center py-4 text-muted">Không có dữ liệu</td></tr>';
@@ -198,7 +201,9 @@ function loadBaoCaoTuan() {
             });
         }
         $('#tbodyBCTuan').html(html);
-    }, 'json');
+    }, 'json').fail(function() {
+        $('#tbodyBCTuan').html('<tr><td colspan="24" class="text-center py-4 text-danger">Không thể kết nối API!</td></tr>');
+    });
 }
 
 function renderAdminActions(lo) {
@@ -232,7 +237,6 @@ function loadSummaryCards() {
         const d = res.data;
         let html = '<div class="summary-cards">';
 
-        // Cards tổng
         html += `
             <div class="summary-card ung">
                 <div class="sc-label">Tổng Tiền Ứng (Tuần)</div>
@@ -247,7 +251,6 @@ function loadSummaryCards() {
                 <div class="sc-value">${formatMoney(d.con_lai)}</div>
             </div>`;
 
-        // Cards từng NV (chỉ admin)
         if (IS_ADMIN && d.theo_nv) {
             d.theo_nv.forEach(nv => {
                 html += `<div style="width:100%;border-top:1px dashed #dee2e6;padding-top:10px;margin-top:5px;">
