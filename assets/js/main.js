@@ -3,12 +3,6 @@
 // =============================================
 
 $(document).ready(function () {
-    // Toggle Sidebar
-    $('#toggleSidebar').on('click', function () {
-        $('.wrapper').toggleClass('collapsed');
-        $('#sidebar').toggleClass('collapsed');
-    });
-
     // Cập nhật đồng hồ realtime
     updateClock();
     setInterval(updateClock, 1000);

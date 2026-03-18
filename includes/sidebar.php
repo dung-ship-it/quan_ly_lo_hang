@@ -16,9 +16,14 @@ $currentPage   = basename($currentScript);
         </div>
     </div>
     <ul class="sidebar-menu">
+        <li class="<?= $currentDir === 'dashboard' ? 'active' : '' ?>">
+            <a href="<?= BASE_URL ?>modules/dashboard/index.php">
+                <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+            </a>
+        </li>
         <li class="<?= $currentDir === 'lo_hang' ? 'active' : '' ?>">
             <a href="<?= BASE_URL ?>modules/lo_hang/index.php">
-                <i class="fas fa-box"></i><span>Nhập Lô Hàng</span>
+                <i class="fas fa-box"></i><span>Lô Hàng</span>
             </a>
         </li>
         <li class="<?= $currentDir === 'khach_hang' ? 'active' : '' ?>">
